@@ -9,35 +9,35 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-public class AlunoDao {
-	private final static String INSERT = "INSERT INTO aluno (nome, ra, rg) VALUES (?,?,?)";
-	private final String DELETE = "DELETE FROM aluno WHERE id=?";
-	private final String UPDATE = "UPDATE `aluno` SET `nome` = ?, `ra` = ?, `rg` = ? WHERE (`id` = ?);";
-	private final String SELECTALL = "SELECT * FROM aluno";
-	private final static String SELECTID = "SELECT * FROM ALUNO WHERE id?";
-
-	public static void inserir(Aluno aluno) {
+public class ProfessorDao {
+	private final static String INSERT = "INSERT INTO professor (nome, rgf, rg) VALUES (?,?,?);";
+	private final String DELETE = "DELETE FROM professor WHERE id=?;";
+	private final String UPDATE = "UPDATE `professor` SET `nome` = ?,`rgf` = ?, `rg` = ? WHERE (`id` = ?);";
+	private final String SELECTALL = "SELECT * FROM professor;";
+	private final static String SELECTID = "SELECT * FROM professor WHERE id=?;";
+	
+	public static void inserir(Professor professor) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectarMySQL.getConexao();
 			pstm = conn.prepareStatement(INSERT);
 
-			pstm.setString(1, aluno.getNome());
-			pstm.setString(2, aluno.getRa());
-			pstm.setString(3, aluno.getRg());
+			pstm.setString(1, professor.getNome());
+			pstm.setString(2, professor.getRgf());
+			pstm.setString(3, professor.getRg());
 
 			pstm.executeUpdate();
 			pstm.close();
 			ConnectarMySQL.closeConexao();
-			JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso.");
+			JOptionPane.showMessageDialog(null, "Professor cadastrado com sucesso.");
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Falha ao tentar REGISTRAR Aluno " + "ERRO: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Falha ao tentar REGISTRAR novo professor " + "ERRO: " + e.getMessage());
 		}
 
 	}
-
-	public void deleteID(int id) {
+	
+	public void deleteRGF(int id) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 
@@ -49,22 +49,22 @@ public class AlunoDao {
 			pstm.executeUpdate();
 			pstm.close();
 			ConnectarMySQL.closeConexao();
-			JOptionPane.showMessageDialog(null, "Aluno deletado com exito");
+			JOptionPane.showMessageDialog(null, "Professor deletado com exito");
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Falha ao tentar DELETAR Aluno " + "ERRO: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Falha ao tentar DELETAR professor " + "ERRO: " + e.getMessage());
 		}
 	}
-
-	public void updateRegistro(Aluno aluno) {
+	
+	public void updateRegistro(Professor professor) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectarMySQL.getConexao();
 			pstm = conn.prepareStatement(UPDATE);
-			pstm.setInt(4, aluno.getId());
-			pstm.setString(1, aluno.getNome());
-			pstm.setString(2, aluno.getRa());
-			pstm.setString(3, aluno.getRg());
+			pstm.setString(1, professor.getNome());
+			pstm.setString(2, professor.getRgf());
+			pstm.setString(3, professor.getRg());
+			pstm.setInt(4, professor.getId());
 
 			pstm.executeUpdate();
 			pstm.close();
@@ -74,41 +74,39 @@ public class AlunoDao {
 			JOptionPane.showMessageDialog(null, "Falha ao tentar ATUALIZAR o Aluno " + "ERRO: " + e.getMessage());
 		}
 	}
-
-	public List<Aluno> getAluno() {
+	
+	public List<Professor> getProfessor() {
 		Connection conn;
 		PreparedStatement pstm;
 		ResultSet rs;
-		ArrayList<Aluno> alunoLista = new ArrayList<Aluno>();
+		ArrayList<Professor> professorLista = new ArrayList<Professor>();
 		try {
 			conn = ConnectarMySQL.getConexao();
 			pstm = conn.prepareStatement(SELECTALL);
 			rs = pstm.executeQuery();
-			System.out.println("Conexão feita");
 
 			while (rs.next()) {
-				Aluno aluno = new Aluno();
+				Professor professor = new Professor();
 
-				aluno.setId(rs.getInt("id"));
-				aluno.setNome(rs.getString("nome"));
-				aluno.setRa(rs.getString("ra"));
-				aluno.setRg(rs.getString("rg"));
-				alunoLista.add(aluno);
+				professor.setId(rs.getInt("id"));
+				professor.setNome(rs.getString("nome"));
+				professor.setRgf(rs.getString("ra"));
+				professor.setRg(rs.getString("rg"));
+				professorLista.add(professor);
 			}
 			pstm.close();
 			ConnectarMySQL.closeConexao();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao listar Alunos" + e.getMessage());
-			// e.printStackTrace();
 		}
-		return alunoLista;
+		return professorLista;
 	}
-
-	public static Aluno getAlunoId(int id) {
+	
+	public static Professor getProfessorId(int id) {
 		Connection conn;
 		PreparedStatement pstm;
 		ResultSet rs;
-		Aluno aluno = new Aluno();
+		Professor professor= new Professor();
 		try {
 			conn = ConnectarMySQL.getConexao();
 			pstm = conn.prepareStatement(SELECTID);
@@ -116,10 +114,10 @@ public class AlunoDao {
 
 			pstm.setInt(1, id);
 			while (rs.next()) {
-				aluno.setId(rs.getInt("id"));
-				aluno.setNome(rs.getString("nome"));
-				aluno.setRa(rs.getString("ra"));
-				aluno.setRg(rs.getString("rg"));
+				professor.setId(rs.getInt("id"));
+				professor.setNome(rs.getString("nome"));
+				professor.setRgf(rs.getString("ra"));
+				professor.setRg(rs.getString("rg"));
 			}
 
 			pstm.close();
@@ -128,7 +126,6 @@ public class AlunoDao {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao atualizar Alunos" + e.getMessage());
 		}
-
-		return aluno;
+		return professor;
 	}
 }

@@ -70,7 +70,7 @@ public class AlunoCadastro extends JFrame implements ActionListener {
 		return botao;
 	}
 	
-	public void limparCampos() {
+	private void limparCampos() {
 		campNome.setText("");
 		campRa.setText("");
 		campRg.setText("");

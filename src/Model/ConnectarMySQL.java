@@ -11,34 +11,29 @@ public class ConnectarMySQL {
 	private final static String username = "root";
 	private final static String password = "@yuri5140";
 
-	private Connection con;
-	private Statement stmt;
-	private ResultSet rs;
+	private static Connection conn;
+	private static Statement stmt;
+	private static ResultSet rs;
 
-
-	public void openDB() {
+	public static Connection getConexao() {
 		try {
-			con = DriverManager.getConnection(url, username, password);
-			stmt = con.createStatement();
-			System.out.println("\nConexÃ£o estabelecida com sucesso!\n");
+			conn = DriverManager.getConnection(url, username, password);
+			System.out.println("\nConexao estabelecida com sucesso!\n");
 		} catch (SQLException e) {
-			System.out.println("\nNÃ£o foi possÃ­vel estabelecer conexÃ£o " + e + "\n");
-			System.exit(1);
+			System.out.println("\nNao foi possivel estabelecer conexao " + e + "\n");
 		}
+		return conn;
 	}
 
-	public void closeDB() {
+	public static void closeConexao() {
 		try {
-			con.close();
+			conn.close();
+			stmt.close();
+			rs.close();
+			System.out.println("\nExito ao encerrar conexao");
 		} catch (SQLException e) {
-			System.out.println("\nNÃ£o foi possÃ­vel fechar conexÃ£o " + e + "\n");
+			System.out.println("\nNao foi possivel fechar conexao " + e + "\n");
 			System.exit(1);
 		}
-	}
-	
-	public static void main(String args[]) {
-		ConnectarMySQL b = new ConnectarMySQL();
-		b.openDB();
-		
 	}
 }

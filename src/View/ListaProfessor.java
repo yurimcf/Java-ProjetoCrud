@@ -11,21 +11,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import Model.Aluno;
-import Model.AlunoDao;
+import Model.Professor;
+import Model.ProfessorDao;
 
-public class ListarAlunos extends JFrame {
+public class ListaProfessor extends JFrame {
 	JPanel painelFundo, painelBotoes;
 	JTable tabela;
 	JScrollPane barraRolagem;
 	JButton btVoltar;
 	DefaultTableModel modelo = new DefaultTableModel();
 
-	public ListarAlunos() {
+	public ListaProfessor() {
 		tabela = new JTable(modelo);
 		modelo.addColumn("ID");
 		modelo.addColumn("Nome");
-		modelo.addColumn("RA");
+		modelo.addColumn("RGF");
 		modelo.addColumn("RG");
 		tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
 		tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
@@ -45,20 +45,19 @@ public class ListarAlunos extends JFrame {
 		btVoltar.addActionListener(new BtVoltarListener());
 
 		getContentPane().add(painelFundo);
-		setTitle("Lista de Alunos");
+		setTitle("Lista de Professores");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(550, 300);
 		setLocationRelativeTo(null);
 		setVisible(false);
-
 	}
 
 	private void pesquisar(DefaultTableModel modelo) {
 		modelo.setNumRows(0);
-		AlunoDao dao = new AlunoDao();
+		ProfessorDao dao = new ProfessorDao();
 
-		for (Aluno a : dao.getAluno()) {
-			modelo.addRow(new Object[] { a.getId(), a.getNome(), a.getRa(), a.getRg() });
+		for (Professor p : dao.getProfessor()) {
+			modelo.addRow(new Object[] { p.getId(), p.getNome(), p.getRgf(), p.getRg() });
 		}
 	}
 
@@ -71,5 +70,9 @@ public class ListarAlunos extends JFrame {
 
 			}
 		}
+	}
+	
+	public static void main(String[] args) {
+		new ListaProfessor();
 	}
 }
