@@ -16,7 +16,7 @@ public class ProfessorDao {
 	private final String SELECTALL = "SELECT * FROM professor;";
 	private final static String SELECTID = "SELECT * FROM professor WHERE id=?;";
 	
-	public static void inserir(Professor professor) {
+	public static boolean inserir(Professor professor) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -28,16 +28,18 @@ public class ProfessorDao {
 			pstm.setString(3, professor.getRg());
 
 			pstm.executeUpdate();
-			pstm.close();
-			ConnectarMySQL.closeConexao();
+			//pstm.close();
+			ConnectarMySQL.closeConexao(conn, pstm);
 			JOptionPane.showMessageDialog(null, "Professor cadastrado com sucesso.");
+			return true;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Falha ao tentar REGISTRAR novo professor " + "ERRO: " + e.getMessage());
 		}
+		return false;
 
 	}
 	
-	public void deleteRGF(int id) {
+	public void deleteID(int id) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 
@@ -47,8 +49,8 @@ public class ProfessorDao {
 			pstm.setInt(1, id);
 
 			pstm.executeUpdate();
-			pstm.close();
-			ConnectarMySQL.closeConexao();
+			//pstm.close();
+			ConnectarMySQL.closeConexao(conn, pstm);
 			JOptionPane.showMessageDialog(null, "Professor deletado com exito");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Falha ao tentar DELETAR professor " + "ERRO: " + e.getMessage());
@@ -67,8 +69,8 @@ public class ProfessorDao {
 			pstm.setInt(4, professor.getId());
 
 			pstm.executeUpdate();
-			pstm.close();
-			ConnectarMySQL.closeConexao();
+			//pstm.close();
+			ConnectarMySQL.closeConexao(conn, pstm);
 			JOptionPane.showMessageDialog(null, "Aluno Atualizado com Sucesso");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Falha ao tentar ATUALIZAR o Aluno " + "ERRO: " + e.getMessage());
@@ -90,12 +92,12 @@ public class ProfessorDao {
 
 				professor.setId(rs.getInt("id"));
 				professor.setNome(rs.getString("nome"));
-				professor.setRgf(rs.getString("ra"));
+				professor.setRgf(rs.getString("rgf"));
 				professor.setRg(rs.getString("rg"));
 				professorLista.add(professor);
 			}
-			pstm.close();
-			ConnectarMySQL.closeConexao();
+			//pstm.close();
+			ConnectarMySQL.closeConexao(conn, pstm, rs);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao listar Alunos" + e.getMessage());
 		}

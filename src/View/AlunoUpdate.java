@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,37 +17,47 @@ import javax.swing.SwingConstants;
 import Controller.ValidaRG;
 import Model.Aluno;
 import Model.AlunoDao;
-import Model.Professor;
-import Model.ProfessorDao;
 
-public class ProfessorCadastro extends JFrame implements ActionListener {
-	JButton btnAdd, btnCancelar;
-	JTextField campNome, campRa, campRg;
-	JLabel nome, rgf, rg;
+public class AlunoUpdate extends JFrame implements ActionListener {
+	private JButton btnAtt, btnCancelar, btnPesq;
+	private JTextField campNome, campRa, campRg, campId;
+	private JLabel nome, ra, rg, id, empty;
 
-	public ProfessorCadastro() {
+	public AlunoUpdate() {
+		// ID
+		id = criarEtiqueta("ID para atualizar:");
+		campId = new JTextField();
+		getContentPane().add(campId);
+		btnPesq = criarBotao("Pesq. ID ", 'P');
+
 		// nome
-		nome = criarEtiqueta("Nome.: ");
+		nome = criarEtiqueta("Nome: ");
 		campNome = new JTextField();
 		getContentPane().add(campNome);
+		empty = new JLabel();
+		getContentPane().add(empty);
 
-		// rgf
-		rgf = criarEtiqueta("RGF.: ");
+		// ra
+		ra = criarEtiqueta("RA do Aluno: ");
 		campRa = new JTextField();
 		getContentPane().add(campRa);
+		empty = new JLabel();
+		getContentPane().add(empty);
 
 		// rg
-		rg = criarEtiqueta("RG.:");
+		rg = criarEtiqueta("RG: ");
 		campRg = new JTextField();
 		getContentPane().add(campRg);
+		empty = new JLabel();
+		getContentPane().add(empty);
 
 		// botoes
-		btnAdd = criarBotao("Adicionar", 'A');
+		btnAtt = criarBotao("Atualizar", 'A');
 		btnCancelar = criarBotao("Cancelar", 'C');
 
-		setTitle("Inserir Novo Professor");
+		setTitle("Atualizar Aluno");
 		setSize(550, 300);
-		GridLayout gl = new GridLayout(4, 2, 3, 30); // linha, coluna, espessuraH - espessuraV
+		GridLayout gl = new GridLayout(5, 3, 3, 30); // linha, coluna, espessuraH - espessuraV
 		getContentPane().setBackground(new Color(200, 200, 200));
 		getContentPane().setLayout(gl);
 		setLocationRelativeTo(null);
@@ -73,7 +84,9 @@ public class ProfessorCadastro extends JFrame implements ActionListener {
 		return botao;
 	}
 
-	private void limparCampos() {
+	// limpa os Campos
+	public void limparCampos() {
+		campId.setText("");
 		campNome.setText("");
 		campRa.setText("");
 		campRg.setText("");
@@ -81,24 +94,38 @@ public class ProfessorCadastro extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnAdd) {
-			Professor novo = new Professor(campNome.getText(), campRa.getText(), campRg.getText());
-			String rg = novo.getRg();
-			if (ValidaRG.isRG(rg) == true) {
-				System.out.printf("%s\n", ValidaRG.imprimeRG(rg));
-				if (ProfessorDao.inserir(novo) == true)
-					limparCampos();
+		AlunoDao dao = new AlunoDao();
+		if (e.getSource() == btnPesq) {
+			int id = Integer.parseInt(campId.getText());
+			for (Aluno a : dao.getAluno()) {
+				if (a.getId() == id) {
+					campNome.setText(a.getNome());
+					campRa.setText(a.getRa());
+					campRg.setText(a.getRg());
+					break;
+				}
+			}
+		}
+
+		if (e.getSource() == btnAtt) {
+			Aluno novo = new Aluno(campNome.getText(), campRa.getText(), campRg.getText());
+			if (ValidaRG.isRG(novo.getRg()) == true) {
+				Aluno attAluno = new Aluno();
+				attAluno.setId(Integer.parseInt(campId.getText()));
+				attAluno.setNome(campNome.getText());
+				attAluno.setRa(campRa.getText());
+				attAluno.setRg(campRg.getText());
+				dao.updateRegistro(attAluno);
 			} else {
 				JOptionPane.showMessageDialog(null, "Rg inválido");
 			}
+			limparCampos();
 		}
 
 		if (e.getSource() == btnCancelar) {
 			MenuAppTela a = new MenuAppTela();
-			JOptionPane.showMessageDialog(null, "Registro Cancelado");
 			setVisible(false);
 			a.setVisible(true);
 		}
-
 	}
 }

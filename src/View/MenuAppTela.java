@@ -17,7 +17,7 @@ public class MenuAppTela extends JFrame implements ActionListener {
 	JLabel home;
 	JMenuBar barraMenu;
 	JMenu cadastro, atualizar, exclusao, leitura, encerrar;
-	JMenuItem professor, aluno, attAluno, rgf, ra, rg, professorL, alunoL, sair;
+	JMenuItem professor, aluno, attAluno, attProfessor, delAluno, delProfessor, ListProf, ListAluno, sair;
 
 	public MenuAppTela() {
 
@@ -50,14 +50,14 @@ public class MenuAppTela extends JFrame implements ActionListener {
 		professor = criarItem("Professor", 'P', cadastro);
 		aluno = criarItem("Aluno", 'A', cadastro);
 
-		attAluno = criarItem("Atualizar Aluno", 'T', atualizar);
+		attAluno = criarItem("Atualizar Aluno", 'A', atualizar);
+		attProfessor = criarItem("Atualizar Professor", 'P', atualizar);
 
-		rgf = criarItem("Por RGF", 'F', exclusao);
-		ra = criarItem("Por RA", 'A', exclusao);
-		rg = criarItem("Por RG", 'G', exclusao);
+		delAluno = criarItem("Deletar Aluno", 'A', exclusao);
+		delProfessor = criarItem("Deletar Professor", 'P', exclusao);
 
-		professorL = criarItem("Leitura Professor", 'I', leitura);
-		alunoL = criarItem("Leitura Aluno", 'L', leitura);
+		ListProf = criarItem("Leitura Professor", 'P', leitura);
+		ListAluno = criarItem("Leitura Aluno", 'A', leitura);
 
 		sair = criarItem("Sair", 'S', encerrar);
 
@@ -90,49 +90,58 @@ public class MenuAppTela extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == professor) {
+		
+		//Cadastro
+		if (e.getSource() == professor) { // feito
 			ProfessorCadastro a = new ProfessorCadastro();
 			a.setVisible(true);
 			setVisible(false);
 		}
 
-		if (e.getSource() == aluno) {
+		if (e.getSource() == aluno) { // feito
 			AlunoCadastro a = new AlunoCadastro();
 			a.setVisible(true);
 			setVisible(false);
 		}
 
-		if (e.getSource() == attAluno) {
-			AlunoUpdateDelete a = new AlunoUpdateDelete();
+		//atualizacao
+		if (e.getSource() == attAluno) { // feito
+			AlunoUpdate a = new AlunoUpdate();
 			a.setVisible(true);
 			setVisible(false);
 		}
-		if (e.getSource() == rgf) {
-			AlunoCadastro a = new AlunoCadastro();
+		if (e.getSource() == attProfessor) { // feito
+			ProfessorUpdate a = new ProfessorUpdate();
 			a.setVisible(true);
 			setVisible(false);
 		}
-		if (e.getSource() == ra) {
-			AlunoCadastro a = new AlunoCadastro();
+		
+		// exclusao
+		if (e.getSource() == delAluno) { // feito
+			AlunoDelete a = new AlunoDelete();
 			a.setVisible(true);
 			setVisible(false);
 		}
-		if (e.getSource() == rg) {
-			AlunoCadastro a = new AlunoCadastro();
+		if (e.getSource() == delProfessor) {
+			ProfessorDelete a = new ProfessorDelete();
 			a.setVisible(true);
 			setVisible(false);
 		}
-		if (e.getSource() == professorL) {
-			AlunoCadastro a = new AlunoCadastro();
+		
+		// listas 
+		if (e.getSource() == ListProf) { // feito 
+			ListaProfessor a = new ListaProfessor();
 			a.setVisible(true);
 			setVisible(false);
 		}
-		if (e.getSource() == alunoL) {
+		//feito
+		if (e.getSource() == ListAluno) { // feito
 			ListarAlunos a = new ListarAlunos();
 			a.setVisible(true);
 			setVisible(false);
 		}
-
+		
+		// encerrar
 		if (e.getSource() == sair) {
 			int sair = JOptionPane.showConfirmDialog(null, "Certeza que deseja Sair");
 			if (sair == 0) {

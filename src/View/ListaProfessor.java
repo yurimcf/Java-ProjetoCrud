@@ -15,11 +15,11 @@ import Model.Professor;
 import Model.ProfessorDao;
 
 public class ListaProfessor extends JFrame {
-	JPanel painelFundo, painelBotoes;
-	JTable tabela;
-	JScrollPane barraRolagem;
-	JButton btVoltar;
-	DefaultTableModel modelo = new DefaultTableModel();
+	private JPanel painelFundo, painelBotoes;
+	private JTable tabela;
+	private JScrollPane barraRolagem;
+	private JButton btVoltar;
+	private DefaultTableModel modelo = new DefaultTableModel();
 
 	public ListaProfessor() {
 		tabela = new JTable(modelo);
@@ -49,7 +49,7 @@ public class ListaProfessor extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(550, 300);
 		setLocationRelativeTo(null);
-		setVisible(false);
+		setVisible(true);
 	}
 
 	private void pesquisar(DefaultTableModel modelo) {
@@ -70,9 +70,5 @@ public class ListaProfessor extends JFrame {
 
 			}
 		}
-	}
-	
-	public static void main(String[] args) {
-		new ListaProfessor();
 	}
 }

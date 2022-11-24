@@ -5,25 +5,23 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Controller.ValidaRG;
 import Model.Aluno;
 import Model.AlunoDao;
 
-public class AlunoUpdateDelete extends JFrame implements ActionListener {
-	JButton btnAtt, btnCancelar, btnDelete, btnPesq;
-	JTextField campNome, campRa, campRg, campId;
-	JLabel nome, ra, rg, id, empty;
+public class AlunoDelete extends JFrame implements ActionListener {
+	private JButton btnCancelar, btnDelete, btnPesq;
+	private JTextField campId;
+	private JLabel campNome, campRa, campRg;
+	private JLabel nome, ra, rg, id, empty;
 
-	public AlunoUpdateDelete() {
+	public AlunoDelete() {
 		// ID
 		id = criarEtiqueta("ID para atualizar:");
 		campId = new JTextField();
@@ -32,31 +30,31 @@ public class AlunoUpdateDelete extends JFrame implements ActionListener {
 
 		// nome
 		nome = criarEtiqueta("Nome: ");
-		campNome = new JTextField();
+		campNome = EtiquetaInfo("");
 		getContentPane().add(campNome);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// ra
 		ra = criarEtiqueta("RA do Aluno: ");
-		campRa = new JTextField();
+		campRa = EtiquetaInfo("");
 		getContentPane().add(campRa);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// rg
 		rg = criarEtiqueta("RG: ");
-		campRg = new JTextField();
+		campRg = EtiquetaInfo("");
 		getContentPane().add(campRg);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// botoes
-		btnAtt = criarBotao("Atualizar", 'A');
 		btnDelete = criarBotao("Deletar", 'D');
 		btnCancelar = criarBotao("Cancelar", 'C');
 
-		setTitle("Atualizar Aluno");
+		// parâmetros da tela
+		setTitle("Deletar Aluno");
 		setSize(550, 300);
 		GridLayout gl = new GridLayout(5, 3, 3, 30); // linha, coluna, espessuraH - espessuraV
 		getContentPane().setBackground(new Color(200, 200, 200));
@@ -76,6 +74,16 @@ public class AlunoUpdateDelete extends JFrame implements ActionListener {
 		return etiqueta;
 	}
 
+	// metodo para criar Label de Info
+	private JLabel EtiquetaInfo(String texto) {
+		JLabel etiqueta = new JLabel(texto);
+		etiqueta.setFont(new Font("Times New Roman", Font.BOLD, 24));
+		etiqueta.setForeground(Color.BLACK);
+		etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+		add(etiqueta);
+		return etiqueta;
+	}
+
 	// metodo para criarbotao
 	private JButton criarBotao(String texto, char c) {
 		JButton botao = new JButton(texto);
@@ -86,8 +94,8 @@ public class AlunoUpdateDelete extends JFrame implements ActionListener {
 	}
 
 	// limpa os Campos
-	public void limparCampos() {
-		campId.setText("");
+	private void limparCampos() {
+		campId.setText(null);
 		campNome.setText("");
 		campRa.setText("");
 		campRg.setText("");
@@ -95,42 +103,29 @@ public class AlunoUpdateDelete extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int id = Integer.parseInt(campId.getText());
 		AlunoDao dao = new AlunoDao();
+		
 		if (e.getSource() == btnPesq) {
+			int idpesq = Integer.parseInt(campId.getText());
 			for (Aluno a : dao.getAluno()) {
-				if (a.getId() == id) {
+				if (a.getId() == idpesq) {
 					campNome.setText(a.getNome());
 					campRa.setText(a.getRa());
 					campRg.setText(a.getRg());
 					break;
-				}
+				} 
 			}
-		}
-
-		if (e.getSource() == btnAtt) {
-			Aluno novo = new Aluno(campNome.getText(), campRa.getText(), campRg.getText());
-			String rg = novo.getRg();
-			if (ValidaRG.isRG(rg) == true) {
-				Aluno attAluno = new Aluno();
-				attAluno.setId(Integer.parseInt(campId.getText()));
-				attAluno.setNome(campNome.getText());
-				attAluno.setRa(campRa.getText());
-				attAluno.setRg(campRg.getText());
-				dao.updateRegistro(attAluno);
-			} else {
-				JOptionPane.showMessageDialog(null, "Rg inválido");
-			}
-			limparCampos();
 		}
 
 		if (e.getSource() == btnDelete) {
+			int idDel = Integer.parseInt(campId.getText());
 			for (Aluno a : dao.getAluno()) {
-				if (a.getId() == id) {
-					dao.deleteID(id);
+				if (a.getId() == idDel) {
+					dao.deleteID(idDel);
 					break;
 				}
 			}
+			limparCampos();
 		}
 
 		if (e.getSource() == btnCancelar) {
@@ -138,7 +133,10 @@ public class AlunoUpdateDelete extends JFrame implements ActionListener {
 			setVisible(false);
 			a.setVisible(true);
 		}
+	}
 
+	public static void main(String[] args) {
+		new AlunoDelete();
 	}
 
 }

@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,8 +13,6 @@ public class ConnectarMySQL {
 	private final static String password = "@yuri5140";
 
 	private static Connection conn;
-	private static Statement stmt;
-	private static ResultSet rs;
 
 	public static Connection getConexao() {
 		try {
@@ -28,8 +27,27 @@ public class ConnectarMySQL {
 	public static void closeConexao() {
 		try {
 			conn.close();
-			stmt.close();
-			rs.close();
+			System.out.println("\nExito ao encerrar conexao");
+		} catch (SQLException e) {
+			System.out.println("\nNao foi possivel fechar conexao " + e + "\n");
+			System.exit(1);
+		}
+	}
+	
+	public static void closeConexao(Connection conn, PreparedStatement ptmt) {
+		try {
+			conn.close();
+			ptmt.close();
+			System.out.println("\nExito ao encerrar conexao");
+		} catch (SQLException e) {
+			System.out.println("\nNao foi possivel fechar conexao " + e + "\n");
+			System.exit(1);
+		}
+	}
+	public static void closeConexao(Connection conn, PreparedStatement ptmt, ResultSet rs) {
+		try {
+			conn.close();
+			ptmt.close();
 			System.out.println("\nExito ao encerrar conexao");
 		} catch (SQLException e) {
 			System.out.println("\nNao foi possivel fechar conexao " + e + "\n");

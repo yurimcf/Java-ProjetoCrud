@@ -83,11 +83,13 @@ public class AlunoCadastro extends JFrame implements ActionListener {
 			String rg = novo.getRg();
 			if (ValidaRG.isRG(rg) == true) {
 				System.out.printf("%s\n", ValidaRG.imprimeRG(rg));
-				AlunoDao.inserir(novo);
+				if(AlunoDao.inserir(novo)) {
+					limparCampos();
+					
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Rg inválido");
 			}
-			limparCampos();
 		}
 		if (e.getSource() == btnCancelar) {
 			MenuAppTela a = new MenuAppTela();

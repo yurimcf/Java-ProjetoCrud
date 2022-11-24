@@ -16,7 +16,7 @@ public class AlunoDao {
 	private final String SELECTALL = "SELECT * FROM aluno";
 	private final static String SELECTID = "SELECT * FROM ALUNO WHERE id?";
 
-	public static void inserir(Aluno aluno) {
+	public static boolean inserir(Aluno aluno) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -31,10 +31,11 @@ public class AlunoDao {
 			pstm.close();
 			ConnectarMySQL.closeConexao();
 			JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso.");
+			return true;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Falha ao tentar REGISTRAR Aluno " + "ERRO: " + e.getMessage());
 		}
-
+		return false;
 	}
 
 	public void deleteID(int id) {
@@ -84,7 +85,6 @@ public class AlunoDao {
 			conn = ConnectarMySQL.getConexao();
 			pstm = conn.prepareStatement(SELECTALL);
 			rs = pstm.executeQuery();
-			System.out.println("Conexão feita");
 
 			while (rs.next()) {
 				Aluno aluno = new Aluno();
@@ -99,7 +99,6 @@ public class AlunoDao {
 			ConnectarMySQL.closeConexao();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao listar Alunos" + e.getMessage());
-			// e.printStackTrace();
 		}
 		return alunoLista;
 	}
