@@ -1,4 +1,4 @@
-package View;
+package View.AlunoTelas;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,53 +9,53 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Controller.ValidaRG;
 import Model.Aluno;
-import Model.Professor;
-import Model.ProfessorDao;
+import Model.AlunoDao;
+import View.MenuAppTela;
 
-public class ProfessorUpdate extends JFrame implements ActionListener {
-	private JButton btnAtt, btnCancelar, btnPesq;
-	private JTextField campNome, campRgf, campRg, campId;
-	private JLabel nome, rgf, rg, id, empty;
+public class AlunoDelete extends JFrame implements ActionListener {
+	private JButton btnCancelar, btnDelete, btnPesq;
+	private JTextField campId;
+	private JLabel campNome, campRa, campRg;
+	private JLabel nome, ra, rg, id, empty;
 
-	public ProfessorUpdate() {
+	public AlunoDelete() {
 		// ID
-		id = criarEtiqueta("ID para atualizar.:");
-		campId = new JTextField(null);
+		id = criarEtiqueta("ID para atualizar:");
+		campId = new JTextField();
 		getContentPane().add(campId);
 		btnPesq = criarBotao("Pesq. ID ", 'P');
 
 		// nome
-		nome = criarEtiqueta("Nome.: ");
-		campNome = new JTextField();
+		nome = criarEtiqueta("Nome: ");
+		campNome = EtiquetaInfo("");
 		getContentPane().add(campNome);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// ra
-		rgf = criarEtiqueta("RA do Aluno.: ");
-		campRgf = new JTextField();
-		getContentPane().add(campRgf);
+		ra = criarEtiqueta("RA do Aluno: ");
+		campRa = EtiquetaInfo("");
+		getContentPane().add(campRa);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// rg
 		rg = criarEtiqueta("RG: ");
-		campRg = new JTextField();
+		campRg = EtiquetaInfo("");
 		getContentPane().add(campRg);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// botoes
-		btnAtt = criarBotao("Atualizar All", 'A');
+		btnDelete = criarBotao("Deletar", 'D');
 		btnCancelar = criarBotao("Cancelar", 'C');
 
-		setTitle("Atualizar Professor");
+		// parâmetros da tela
+		setTitle("Deletar Aluno");
 		setSize(550, 300);
 		GridLayout gl = new GridLayout(5, 3, 3, 30); // linha, coluna, espessuraH - espessuraV
 		getContentPane().setBackground(new Color(200, 200, 200));
@@ -75,6 +75,16 @@ public class ProfessorUpdate extends JFrame implements ActionListener {
 		return etiqueta;
 	}
 
+	// metodo para criar Label de Info
+	private JLabel EtiquetaInfo(String texto) {
+		JLabel etiqueta = new JLabel(texto);
+		etiqueta.setFont(new Font("Times New Roman", Font.BOLD, 24));
+		etiqueta.setForeground(Color.BLACK);
+		etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+		add(etiqueta);
+		return etiqueta;
+	}
+
 	// metodo para criarbotao
 	private JButton criarBotao(String texto, char c) {
 		JButton botao = new JButton(texto);
@@ -85,43 +95,40 @@ public class ProfessorUpdate extends JFrame implements ActionListener {
 	}
 
 	// limpa os Campos
-	public void limparCampos() {
-		campId.setText("");
+	private void limparCampos() {
+		campId.setText(null);
 		campNome.setText("");
-		campRgf.setText("");
+		campRa.setText("");
 		campRg.setText("");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ProfessorDao dao = new ProfessorDao();
+		AlunoDao dao = new AlunoDao();
+		
 		if (e.getSource() == btnPesq) {
-			int id = Integer.parseInt(campId.getText());
-			for (Professor p : dao.getProfessor()) {
-				if (p.getId() == id) {
-					campNome.setText(p.getNome());
-					campRgf.setText(p.getRgf());
-					campRg.setText(p.getRg());
+			int idpesq = Integer.parseInt(campId.getText());
+			for (Aluno a : dao.getAluno()) {
+				if (a.getId() == idpesq) {
+					campNome.setText(a.getNome());
+					campRa.setText(a.getRa());
+					campRg.setText(a.getRg());
+					break;
+				} 
+			}
+		}
+
+		if (e.getSource() == btnDelete) {
+			int idDel = Integer.parseInt(campId.getText());
+			for (Aluno a : dao.getAluno()) {
+				if (a.getId() == idDel) {
+					dao.deleteID(idDel);
 					break;
 				}
 			}
-		}
-		
-		if (e.getSource() == btnAtt) {
-			Professor novo = new Professor(campNome.getText(), campRgf.getText(), campRg.getText());
-			if (ValidaRG.isRG(novo.getRg()) == true) {
-				Professor attProf = new Professor();
-				attProf.setId(Integer.parseInt(campId.getText()));
-				attProf.setNome(campNome.getText());
-				attProf.setRgf(campRgf.getText());
-				attProf.setRg(campRg.getText());
-				dao.updateRegistro(attProf);
-			} else {
-				JOptionPane.showMessageDialog(null, "Rg inválido");
-			}
 			limparCampos();
 		}
-		
+
 		if (e.getSource() == btnCancelar) {
 			MenuAppTela a = new MenuAppTela();
 			setVisible(false);
@@ -130,7 +137,7 @@ public class ProfessorUpdate extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new ProfessorUpdate();
+		new AlunoDelete();
 	}
 
 }

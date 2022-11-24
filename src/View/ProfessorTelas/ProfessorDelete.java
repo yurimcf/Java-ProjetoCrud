@@ -1,4 +1,4 @@
-package View;
+package View.ProfessorTelas;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,37 +13,39 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import Model.Aluno;
-import Model.AlunoDao;
+import Model.Professor;
+import Model.ProfessorDao;
+import View.MenuAppTela;
 
-public class AlunoDelete extends JFrame implements ActionListener {
+public class ProfessorDelete extends JFrame implements ActionListener {
 	private JButton btnCancelar, btnDelete, btnPesq;
 	private JTextField campId;
-	private JLabel campNome, campRa, campRg;
-	private JLabel nome, ra, rg, id, empty;
+	private JLabel campNome, campRgf, campRg;
+	private JLabel nome, rgf, rg, id, empty;
 
-	public AlunoDelete() {
+	public ProfessorDelete() {
 		// ID
-		id = criarEtiqueta("ID para atualizar:");
+		id = criarEtiqueta("ID para atualizar.:");
 		campId = new JTextField();
 		getContentPane().add(campId);
 		btnPesq = criarBotao("Pesq. ID ", 'P');
 
 		// nome
-		nome = criarEtiqueta("Nome: ");
+		nome = criarEtiqueta("Nome.: ");
 		campNome = EtiquetaInfo("");
 		getContentPane().add(campNome);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// ra
-		ra = criarEtiqueta("RA do Aluno: ");
-		campRa = EtiquetaInfo("");
-		getContentPane().add(campRa);
+		rgf = criarEtiqueta("RGF.: ");
+		campRgf = EtiquetaInfo("");
+		getContentPane().add(campRgf);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// rg
-		rg = criarEtiqueta("RG: ");
+		rg = criarEtiqueta("RG.: ");
 		campRg = EtiquetaInfo("");
 		getContentPane().add(campRg);
 		empty = new JLabel();
@@ -54,7 +56,7 @@ public class AlunoDelete extends JFrame implements ActionListener {
 		btnCancelar = criarBotao("Cancelar", 'C');
 
 		// parâmetros da tela
-		setTitle("Deletar Aluno");
+		setTitle("Deletar Professor");
 		setSize(550, 300);
 		GridLayout gl = new GridLayout(5, 3, 3, 30); // linha, coluna, espessuraH - espessuraV
 		getContentPane().setBackground(new Color(200, 200, 200));
@@ -97,29 +99,28 @@ public class AlunoDelete extends JFrame implements ActionListener {
 	private void limparCampos() {
 		campId.setText(null);
 		campNome.setText("");
-		campRa.setText("");
+		campRgf.setText("");
 		campRg.setText("");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		AlunoDao dao = new AlunoDao();
-		
+		ProfessorDao dao = new ProfessorDao();
 		if (e.getSource() == btnPesq) {
 			int idpesq = Integer.parseInt(campId.getText());
-			for (Aluno a : dao.getAluno()) {
+			for (Professor a : dao.getProfessor()) {
 				if (a.getId() == idpesq) {
 					campNome.setText(a.getNome());
-					campRa.setText(a.getRa());
+					campRgf.setText(a.getRgf());
 					campRg.setText(a.getRg());
 					break;
 				} 
 			}
 		}
-
+		
 		if (e.getSource() == btnDelete) {
 			int idDel = Integer.parseInt(campId.getText());
-			for (Aluno a : dao.getAluno()) {
+			for (Professor a : dao.getProfessor()) {
 				if (a.getId() == idDel) {
 					dao.deleteID(idDel);
 					break;
@@ -127,16 +128,12 @@ public class AlunoDelete extends JFrame implements ActionListener {
 			}
 			limparCampos();
 		}
-
+		
 		if (e.getSource() == btnCancelar) {
 			MenuAppTela a = new MenuAppTela();
 			setVisible(false);
 			a.setVisible(true);
 		}
-	}
-
-	public static void main(String[] args) {
-		new AlunoDelete();
 	}
 
 }

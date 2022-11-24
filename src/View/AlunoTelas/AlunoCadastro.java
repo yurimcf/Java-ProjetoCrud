@@ -1,4 +1,4 @@
-package View;
+package View.AlunoTelas;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import Controller.ValidaRG;
 import Model.Aluno;
 import Model.AlunoDao;
+import View.MenuAppTela;
 
 public class AlunoCadastro extends JFrame implements ActionListener {
 	JButton btnAdd, btnCancelar;

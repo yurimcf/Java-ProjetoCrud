@@ -1,4 +1,4 @@
-package View;
+package View.AlunoTelas;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Model.Aluno;
 import Model.AlunoDao;
+import View.MenuAppTela;
 
 public class ListarAlunos extends JFrame {
 	JPanel painelFundo, painelBotoes;

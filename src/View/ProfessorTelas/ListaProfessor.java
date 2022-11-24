@@ -1,4 +1,4 @@
-package View;
+package View.ProfessorTelas;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Model.Professor;
 import Model.ProfessorDao;
+import View.MenuAppTela;
 
 public class ListaProfessor extends JFrame {
 	private JPanel painelFundo, painelBotoes;

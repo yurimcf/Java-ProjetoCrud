@@ -1,11 +1,10 @@
-package View;
+package View.ProfessorTelas;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,31 +15,33 @@ import javax.swing.SwingConstants;
 
 import Controller.ValidaRG;
 import Model.Aluno;
-import Model.AlunoDao;
+import Model.Professor;
+import Model.ProfessorDao;
+import View.MenuAppTela;
 
-public class AlunoUpdate extends JFrame implements ActionListener {
+public class ProfessorUpdate extends JFrame implements ActionListener {
 	private JButton btnAtt, btnCancelar, btnPesq;
-	private JTextField campNome, campRa, campRg, campId;
-	private JLabel nome, ra, rg, id, empty;
+	private JTextField campNome, campRgf, campRg, campId;
+	private JLabel nome, rgf, rg, id, empty;
 
-	public AlunoUpdate() {
+	public ProfessorUpdate() {
 		// ID
-		id = criarEtiqueta("ID para atualizar:");
-		campId = new JTextField();
+		id = criarEtiqueta("ID para atualizar.:");
+		campId = new JTextField(null);
 		getContentPane().add(campId);
 		btnPesq = criarBotao("Pesq. ID ", 'P');
 
 		// nome
-		nome = criarEtiqueta("Nome: ");
+		nome = criarEtiqueta("Nome.: ");
 		campNome = new JTextField();
 		getContentPane().add(campNome);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
 		// ra
-		ra = criarEtiqueta("RA do Aluno: ");
-		campRa = new JTextField();
-		getContentPane().add(campRa);
+		rgf = criarEtiqueta("RA do Aluno.: ");
+		campRgf = new JTextField();
+		getContentPane().add(campRgf);
 		empty = new JLabel();
 		getContentPane().add(empty);
 
@@ -52,10 +53,10 @@ public class AlunoUpdate extends JFrame implements ActionListener {
 		getContentPane().add(empty);
 
 		// botoes
-		btnAtt = criarBotao("Atualizar", 'A');
+		btnAtt = criarBotao("Atualizar All", 'A');
 		btnCancelar = criarBotao("Cancelar", 'C');
 
-		setTitle("Atualizar Aluno");
+		setTitle("Atualizar Professor");
 		setSize(550, 300);
 		GridLayout gl = new GridLayout(5, 3, 3, 30); // linha, coluna, espessuraH - espessuraV
 		getContentPane().setBackground(new Color(200, 200, 200));
@@ -88,44 +89,49 @@ public class AlunoUpdate extends JFrame implements ActionListener {
 	public void limparCampos() {
 		campId.setText("");
 		campNome.setText("");
-		campRa.setText("");
+		campRgf.setText("");
 		campRg.setText("");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		AlunoDao dao = new AlunoDao();
+		ProfessorDao dao = new ProfessorDao();
 		if (e.getSource() == btnPesq) {
 			int id = Integer.parseInt(campId.getText());
-			for (Aluno a : dao.getAluno()) {
-				if (a.getId() == id) {
-					campNome.setText(a.getNome());
-					campRa.setText(a.getRa());
-					campRg.setText(a.getRg());
+			for (Professor p : dao.getProfessor()) {
+				if (p.getId() == id) {
+					campNome.setText(p.getNome());
+					campRgf.setText(p.getRgf());
+					campRg.setText(p.getRg());
 					break;
 				}
 			}
 		}
-
+		
 		if (e.getSource() == btnAtt) {
-			Aluno novo = new Aluno(campNome.getText(), campRa.getText(), campRg.getText());
+			Professor novo = new Professor(campNome.getText(), campRgf.getText(), campRg.getText());
 			if (ValidaRG.isRG(novo.getRg()) == true) {
-				Aluno attAluno = new Aluno();
-				attAluno.setId(Integer.parseInt(campId.getText()));
-				attAluno.setNome(campNome.getText());
-				attAluno.setRa(campRa.getText());
-				attAluno.setRg(campRg.getText());
-				dao.updateRegistro(attAluno);
+				Professor attProf = new Professor();
+				attProf.setId(Integer.parseInt(campId.getText()));
+				attProf.setNome(campNome.getText());
+				attProf.setRgf(campRgf.getText());
+				attProf.setRg(campRg.getText());
+				dao.updateRegistro(attProf);
 			} else {
 				JOptionPane.showMessageDialog(null, "Rg inválido");
 			}
 			limparCampos();
 		}
-
+		
 		if (e.getSource() == btnCancelar) {
 			MenuAppTela a = new MenuAppTela();
 			setVisible(false);
 			a.setVisible(true);
 		}
 	}
+
+	public static void main(String[] args) {
+		new ProfessorUpdate();
+	}
+
 }

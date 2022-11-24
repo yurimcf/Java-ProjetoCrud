@@ -13,6 +13,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import View.AlunoTelas.AlunoCadastro;
+import View.AlunoTelas.AlunoDelete;
+import View.AlunoTelas.AlunoUpdate;
+import View.AlunoTelas.ListarAlunos;
+import View.ProfessorTelas.ListaProfessor;
+import View.ProfessorTelas.ProfessorCadastro;
+import View.ProfessorTelas.ProfessorDelete;
+import View.ProfessorTelas.ProfessorUpdate;
+
 public class MenuAppTela extends JFrame implements ActionListener {
 	JLabel home;
 	JMenuBar barraMenu;
