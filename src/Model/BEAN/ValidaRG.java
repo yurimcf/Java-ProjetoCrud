@@ -1,4 +1,4 @@
-package Controller;
+package Model.BEAN;
 
 public class ValidaRG {
 	//verifica se rg é valido

@@ -1,27 +1,19 @@
-package Model;
+package Model.entity;
 
-public class Aluno {
+public class Professor {
 	private int id;
 	private String nome;
-	private String ra;
+	private String rgf;
 	private String rg;
 
-	public Aluno() {
-		
-	}
-	
-
-	public Aluno(int id) {
-		super();
-		this.id = id;
+	public Professor() {
 	}
 
-
-	public Aluno(String nome, String ra, String rg) {
+	public Professor(String nome, String rgf, String rg) {
 		super();
 		this.nome = nome;
-		this.ra = ra;
-		this.rg = rg;	
+		this.rgf = rgf;
+		this.rg = rg;
 	}
 
 	public int getId() {
@@ -40,12 +32,12 @@ public class Aluno {
 		this.nome = nome;
 	}
 
-	public String getRa() {
-		return ra;
+	public String getRgf() {
+		return rgf;
 	}
 
-	public void setRa(String ra) {
-		this.ra = ra;
+	public void setRgf(String rgf) {
+		this.rgf = rgf;
 	}
 
 	public String getRg() {
@@ -58,7 +50,6 @@ public class Aluno {
 
 	@Override
 	public String toString() {
-		return "Aluno [id=" + id + ", nome=" + nome + ", ra=" + ra + ", rg=" + rg + "]";
-	}	
-	
+		return "Professor [id=" + id + ", nome=" + nome + ", rgf=" + rgf + ", rg=" + rg + "]";
+	}
 }

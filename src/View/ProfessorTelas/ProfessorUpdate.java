@@ -13,10 +13,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Controller.ValidaRG;
-import Model.Aluno;
-import Model.Professor;
-import Model.ProfessorDao;
+import Model.BEAN.ValidaRG;
+import Model.DAO.ProfessorDao;
+import Model.entity.Aluno;
+import Model.entity.Professor;
 import View.MenuAppTela;
 
 public class ProfessorUpdate extends JFrame implements ActionListener {

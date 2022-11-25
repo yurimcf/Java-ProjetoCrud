@@ -11,8 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import Model.Professor;
-import Model.ProfessorDao;
+import Model.DAO.ProfessorDao;
+import Model.entity.Professor;
 import View.MenuAppTela;
 
 public class ListaProfessor extends JFrame {

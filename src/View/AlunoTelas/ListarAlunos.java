@@ -11,8 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import Model.Aluno;
-import Model.AlunoDao;
+import Model.DAO.AlunoDao;
+import Model.entity.Aluno;
 import View.MenuAppTela;
 
 public class ListarAlunos extends JFrame {

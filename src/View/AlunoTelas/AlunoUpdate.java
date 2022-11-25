@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Controller.ValidaRG;
-import Model.Aluno;
-import Model.AlunoDao;
+import Model.BEAN.ValidaRG;
+import Model.DAO.AlunoDao;
+import Model.entity.Aluno;
 import View.MenuAppTela;
 
 public class AlunoUpdate extends JFrame implements ActionListener {

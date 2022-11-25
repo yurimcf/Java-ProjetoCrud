@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Model.Aluno;
-import Model.Professor;
-import Model.ProfessorDao;
+import Model.DAO.ProfessorDao;
+import Model.entity.Aluno;
+import Model.entity.Professor;
 import View.MenuAppTela;
 
 public class ProfessorDelete extends JFrame implements ActionListener {

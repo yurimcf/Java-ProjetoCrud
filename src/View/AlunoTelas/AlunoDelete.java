@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Model.Aluno;
-import Model.AlunoDao;
+import Model.DAO.AlunoDao;
+import Model.entity.Aluno;
 import View.MenuAppTela;
 
 public class AlunoDelete extends JFrame implements ActionListener {

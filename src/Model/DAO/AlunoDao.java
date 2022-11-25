@@ -1,4 +1,4 @@
-package Model;
+package Model.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import Model.entity.Aluno;
 
 public class AlunoDao {
 	private final static String INSERT = "INSERT INTO aluno (nome, ra, rg) VALUES (?,?,?)";
